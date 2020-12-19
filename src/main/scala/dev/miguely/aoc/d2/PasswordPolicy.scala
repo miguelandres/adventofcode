@@ -1,4 +1,4 @@
-package dev.miguely.aoc.d2p1
+package dev.miguely.aoc.d2
 import scala.io.Source
 import scala.util.matching.Regex
 

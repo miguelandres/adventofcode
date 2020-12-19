@@ -1,11 +1,11 @@
-package dev.miguely.aoc.d1p1
+package dev.miguely.aoc.d1
 
 import scala.io.Source
 import scala.Console.println
 import scala.util.control.Breaks._
 import scala.collection.immutable.HashMap
 object ExpenseReport extends App {
-  val source = Source.fromFile("input/d1p1.txt")
+  val source = Source.fromFile("input/d1.txt")
   try {
     val entries = source.getLines().map(_.toInt)
 
