@@ -15,7 +15,7 @@ object PasswordPolicy {
     Source
       .fromFile("input/d2.txt")
       .getLines()
-      .foreach(line => {
+      .foreach { line =>
         var matchesOption = passwordPattern.findFirstMatchIn(line)
         val matches = matchesOption.get
         // Create CountingPolicy for the first part and PositionalPolicy for the second part
@@ -29,9 +29,9 @@ object PasswordPolicy {
           matches.group(1).toInt - 1,
           matches.group(2).toInt - 1
         )
-        if (compliesWithPolicy(matches.group(4), policy)) 
+        if (compliesWithPolicy(matches.group(4), policy))
           count = count + 1
-      })
+      }
     println(count)
   }
 
@@ -43,9 +43,8 @@ object PasswordPolicy {
   def compliesWithPolicy(
       password: String,
       policy: PositionalPolicy
-  ): Boolean = {
+  ): Boolean =
     return (password.charAt(policy.pos1) != password.charAt(policy.pos2) &&
-      (password.charAt(policy.pos1) == policy.char || 
-       password.charAt(policy.pos2) == policy.char))
-  }
+      (password.charAt(policy.pos1) == policy.char ||
+        password.charAt(policy.pos2) == policy.char))
 }

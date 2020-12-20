@@ -1,7 +1,7 @@
 package dev.miguely.aoc.d8
 
 import scala.collection.mutable.ArrayBuffer
-import scala.util.{Try, Success, Failure}
+import scala.util.{Failure, Success, Try}
 import scala.util.control.Breaks.{break, breakable}
 
 class AsmRunner {
@@ -19,37 +19,34 @@ class AsmRunner {
       updateIndex()
       patchedInstructions(index)
     }
-    protected def updateIndex(): Unit = { index = index + 1 }
+    protected def updateIndex(): Unit = index = index + 1
     protected def doRun(): Unit = {}
   }
 
   case class Nop(override val num: Int) extends Instruction(num)
 
   case class Jump(override val num: Int) extends Instruction(num) {
-    override protected def updateIndex(): Unit = { index = index + num }
+    override protected def updateIndex(): Unit = index = index + num
   }
   case class Acc(override val num: Int) extends Instruction(num) {
-    override protected def doRun(): Unit = { accumulator = accumulator + num }
+    override protected def doRun(): Unit = accumulator = accumulator + num
   }
 
   private val instructions = new ArrayBuffer[Instruction]()
-  def addInstruction(instruction: Instruction) = {
+  def addInstruction(instruction: Instruction) =
     instructions += instruction
-  }
 
   private def runInternal(
       patchedInstructions: ArrayBuffer[Instruction] = instructions
   ): Boolean = {
     var ins: Try[Instruction] = Success(instructions(index))
-    while (ins.isSuccess) {
+    while (ins.isSuccess)
       ins = ins.get.run(patchedInstructions)
-    }
     return index == instructions.size
   }
 
-  def run(): Boolean = {
+  def run(): Boolean =
     runInternal()
-  }
 
   def fix() = {
     var patchedInstructions = instructions.clone()
@@ -84,14 +81,14 @@ object AsmBoot extends App {
   scala.io.Source
     .fromFile("input/d8.txt")
     .getLines()
-    .foreach(line => {
+    .foreach { line =>
       val parts = line.split(" ")
       runner.addInstruction(parts(0) match {
         case "nop" => new runner.Nop(parseNum(parts(1)))
         case "jmp" => new runner.Jump(parseNum(parts(1)))
         case "acc" => new runner.Acc(parseNum(parts(1)))
       })
-    })
+    }
   runner.run()
   println(runner.accumulator)
   runner.fix()

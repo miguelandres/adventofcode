@@ -20,7 +20,7 @@ object Slopes extends App {
       j %= map(i).size
       i += di
     }
-    mult = mult * (count)
+    mult = mult * count
   }
-  println (mult)
+  println(mult)
 }

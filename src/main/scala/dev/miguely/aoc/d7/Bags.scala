@@ -12,20 +12,18 @@ object Bags extends App {
   scala.io.Source
     .fromFile("input/d7.txt")
     .getLines()
-    .foreach(line => {
+    .foreach { line =>
       var parent = parentBag.findFirstMatchIn(line).get.group(1)
       graph.getOrAddNode(parent)
       line
         .split(" contain ")(1)
         .split(",")
-        .foreach(part => {
+        .foreach { part =>
           childBag
             .findAllMatchIn(part)
-            .foreach(m => {
-              graph.addEdge(parent, m.group(2), m.group(1).toInt)
-            })
-        })
-    })
+            .foreach(m => graph.addEdge(parent, m.group(2), m.group(1).toInt))
+        }
+    }
 
   println(graph.getOrAddNode("shiny gold").countAncestors())
 
@@ -36,21 +34,19 @@ object Bags extends App {
       val children = new ArrayBuffer[(Node, Int)]()
       val parents = new ArrayBuffer[(Node, Int)]()
 
-      def countAncestors(visitedAncestors: HashSet[String] = new HashSet()): Int = {
-        return parents.foldLeft(0)((result, tuple) => {
+      def countAncestors(visitedAncestors: HashSet[String] = new HashSet()): Int =
+        return parents.foldLeft(0) { (result, tuple) =>
           if (visitedAncestors.contains(tuple._1.name)) return result
-          else{
+          else {
             visitedAncestors += tuple._1.name
             return result + tuple._1.countAncestors(visitedAncestors)
-          }}
-        )
-      }
+          }
+        }
 
-      def calculateChildrenRecursiveCost(): Int= {
-        return children.foldLeft(0)((result, tuple) => {
+      def calculateChildrenRecursiveCost(): Int =
+        return children.foldLeft(0) { (result, tuple) =>
           result + tuple._2 * (1 + tuple._1.calculateChildrenRecursiveCost())
-        })
-      }
+        }
     }
     val nodes = new HashMap[String, Node]()
 

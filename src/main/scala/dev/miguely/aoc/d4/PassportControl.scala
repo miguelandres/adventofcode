@@ -21,7 +21,7 @@ object PassportControl extends App {
   scala.io.Source
     .fromFile("input/d4.txt")
     .getLines()
-    .foreach(line => {
+    .foreach { line =>
       var trimmedLine = line.trim()
       if (trimmedLine.size == 0) {
         passportData = new HashMap[String, String]()
@@ -29,13 +29,13 @@ object PassportControl extends App {
       } else {
         trimmedLine
           .split(" ")
-          .map(data => {
+          .map { data =>
             var keyValue = data.trim().split(":");
             passportData += keyValue(0) -> keyValue(1)
-          })
+          }
 
       }
-    })
+    }
   var count = 0
   for (passport <- passports) {
     val status = validatePassportAdvanced(passport)
@@ -45,28 +45,23 @@ object PassportControl extends App {
   println(count)
 
   // Implementation part 1
-  def validatePassportSimple(passport: HashMap[String, String]): Boolean = {
-    return required.foldLeft(true)((status, field) =>
-      status && passport.contains(field)
-    )
-  }
+  def validatePassportSimple(passport: HashMap[String, String]): Boolean =
+    return required.foldLeft(true)((status, field) => status && passport.contains(field))
   //implementation part 2
   def validatePassportAdvanced(passport: HashMap[String, String]): Boolean = {
-    for (func <- validationFunctions) {
+    for (func <- validationFunctions)
       if (!func(passport)) return false
-    }
     return true
   }
 
   def validateYear(field: String, min: Int, max: Int)(
       passport: HashMap[String, String]
-  ): Boolean = {
+  ): Boolean =
     passport.getOrElse(field, "").toIntOption match {
-      case None                                        => return false
-      case Some(value) if (value < min || value > max) => return false
-      case _                                           => return true
+      case None                                      => return false
+      case Some(value) if value < min || value > max => return false
+      case _                                         => return true
     }
-  }
 
   def validateHeight(passport: HashMap[String, String]): Boolean = {
     val value = passport.getOrElse("hgt", "")
@@ -111,7 +106,7 @@ object PassportControl extends App {
     val value = passport.getOrElse("ecl", "")
     val validEyeColor = Seq("amb", "blu", "brn", "gry", "grn", "hzl", "oth")
     var valid = false
-    validEyeColor.foreach(color => { valid = valid || color == value })
+    validEyeColor.foreach(color => valid = valid || color == value)
     return valid
   }
 }
