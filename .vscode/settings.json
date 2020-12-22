@@ -3,6 +3,8 @@
         "**/target": true
     },
     "cSpell.words": [
-        "Joltage"
+        "Joltage",
+        "linput",
+        "sinput"
     ]
 }
