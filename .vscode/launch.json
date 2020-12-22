@@ -7,10 +7,18 @@
         {
             "type": "scala",
             "request": "launch",
+            "name": "10-JoltageAdapter",
+            "mainClass": "dev.miguely.aoc.d10.JoltageAdapter",
+            "args": [],
+            "jvmOptions": []
+        },
+        {
+            "type": "scala",
+            "request": "launch",
             "name": "21-AllergenDetector",
             "mainClass": "dev.miguely.aoc.d21.AllergenDetector",
             "args": [],
             "jvmOptions": []
-        }
+        },
     ]
 }
