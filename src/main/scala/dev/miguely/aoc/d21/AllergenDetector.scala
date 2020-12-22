@@ -95,6 +95,11 @@ object AllergenDetector {
       for (recipes <- ingredientsToRecipes(ingredient)) count = count + 1
 
     println(count)
+    println(
+      (for (allergen <- allAllergens.toList.sorted)
+        yield allergensToPossibleIngredients(allergen).iterator.next)
+        .addString(new StringBuilder(), ",")
+    )
   }
 
   def parseLine(line: String): (StringSet, StringSet) = {
